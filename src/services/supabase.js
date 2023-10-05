@@ -106,9 +106,22 @@ const fetchEpisodesByRange = async (rangeId) => {
 };
 
 const fetchArtwork = async (folder, id) => {
+
+    console.log(`Searching for ${id} in ${folder}`);
+    const {data: exists} = await supabase
+        .storage
+        .from("cover_art")
+        .list(`${folder}`, {
+            limit: 10,
+            offset: 0,
+            search: `${id}`
+        });
+    if (exists.length !== 1) {
+        return undefined;
+    }
     const {data} = supabase
         .storage
-        .from("cover-art")
+        .from("cover_art")
         .getPublicUrl(`${folder}/${id}.jpg`);
 
     return data;
@@ -221,7 +234,8 @@ const fetchEpisode = async (episodeId) => {
         return [];
     }
 
-    const coverArt = await fetchArtwork("episodes", data.episode_id);
+    let coverArt = await fetchArtwork("episodes", data.episode_id);
+
     const episodeData = {
         episode_id: data.episode_id,
         episode_name: data.episode_name,
@@ -229,7 +243,6 @@ const fetchEpisode = async (episodeId) => {
         episode_code: data.episode_code,
         summary: data.summary,
         release_date: data.release_date,
-        cover_art: coverArt,
         added_on: data.added_on
     };
 
@@ -238,6 +251,17 @@ const fetchEpisode = async (episodeId) => {
         const series = data.seasons.series;
         const range = data.seasons.series.ranges;
         const category = data.seasons.series.ranges.categories;
+
+        if (!coverArt) {
+            coverArt = await fetchArtwork("seasons", season.season_id);
+        }
+        if (!coverArt) {
+            coverArt = await fetchArtwork("series", series.series_id);
+        }
+        if (!coverArt) {
+            coverArt = await fetchArtwork("ranges", range.range_id);
+        }
+        episodeData.cover_art = coverArt;
 
         episodeData.season = {season_id: season.season_id, season_name: season.season_name};
         episodeData.series = {series_id: series.series_id, series_name: series.series_name};
@@ -248,12 +272,25 @@ const fetchEpisode = async (episodeId) => {
         const range = data.series.ranges;
         const category = data.series.ranges.categories;
 
+        if (!coverArt) {
+            coverArt = await fetchArtwork("series", series.series_id);
+        }
+        if (!coverArt) {
+            coverArt = await fetchArtwork("ranges", range.range_id);
+        }
+        episodeData.cover_art = coverArt;
+
         episodeData.series = {series_id: series.series_id, series_name: series.series_name};
         episodeData.range = {range_id: range.range_id, range_name: range.range_name};
         episodeData.category = {category_id: category.category_id, category_name: category.category_name};
     } else if (data.ranges !== null) {
         const range = data.ranges;
         const category = data.ranges.categories;
+
+        if (!coverArt) {
+            coverArt = await fetchArtwork("ranges", range.range_id);
+        }
+        episodeData.cover_art = coverArt;
 
         episodeData.range = {range_id: range.range_id, range_name: range.range_name};
         episodeData.category = {category_id: category.category_id, category_name: category.category_name};
