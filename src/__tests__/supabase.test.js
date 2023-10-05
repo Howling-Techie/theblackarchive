@@ -128,7 +128,7 @@ describe("fetchRange", () => {
             range_id: 21,
             range_name: "The Eighth Doctor Adventures (8DA)",
             category_id: 1,
-            categories: {category_id: 1, category_name: "The Classic Series"},
+            category: {category_id: 1, category_name: "The Classic Series"},
             summary: null,
             range_code: null
         });
@@ -145,10 +145,13 @@ describe("fetchSeries", () => {
         expect(series).toMatchObject({
             series_id: 73,
             series_name: "The Outlaws",
-            ranges: {
+            range: {
                 range_id: 12,
-                range_name: "The First Doctor Adventures (1DA)",
-                categories: {category_id: 1, category_name: "The Classic Series"}
+                range_name: "The First Doctor Adventures (1DA)"
+            },
+            category: {
+                category_id: 1,
+                category_name: "The Classic Series"
             },
             series_code: null,
             summary: expect.any(String)
@@ -168,15 +171,15 @@ describe("fetchSeason", () => {
             season_name: "Series 2 - Other Worlds",
             series: {
                 series_id: 221,
-                series_name: "Rose Tyler The Dimension Cannon (RT)",
-                ranges: {
-                    range_id: 42,
-                    range_name: "Special Releases",
-                    categories: {
-                        category_id: 3,
-                        category_name: "The Worlds of Doctor Who"
-                    }
-                }
+                series_name: "Rose Tyler The Dimension Cannon (RT)"
+            },
+            range: {
+                range_id: 42,
+                range_name: "Special Releases"
+            },
+            category: {
+                category_id: 3,
+                category_name: "The Worlds of Doctor Who"
             },
             summary: expect.any(String)
         });
@@ -193,21 +196,21 @@ describe("fetchEpisode", () => {
         expect(episode).toMatchObject({
             episode_id: 1523,
             episode_name: "Assets of War",
-            seasons: {
+            season: {
                 season_id: 90,
-                season_name: "Series 1",
-                series: {
-                    series_id: 223,
-                    series_name: "Susan's War (SW)",
-                    ranges: {
-                        range_id: 42,
-                        range_name: "Special Releases",
-                        categories: {
-                            category_id: 3,
-                            category_name: "The Worlds of Doctor Who"
-                        }
-                    }
-                }
+                season_name: "Series 1"
+            },
+            series: {
+                series_id: 223,
+                series_name: "Susan's War (SW)"
+            },
+            range: {
+                range_id: 42,
+                range_name: "Special Releases"
+            },
+            category: {
+                category_id: 3,
+                category_name: "The Worlds of Doctor Who"
             },
             added_on: expect.any(String),
             episode_number: 3,
