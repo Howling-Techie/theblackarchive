@@ -40,7 +40,7 @@ const EpisodeInfo = ({episode}) => {
     return (
         <Card>
             <CardContent>
-                <div style={{display: "flex", alignItems: "center", marginBottom: "16px"}}>
+                <div style={{display: "flex", alignItems: "flex-start", marginBottom: "16px", marginTop: "8px"}}>
                     <div style={{marginRight: "16px"}}>
                         <Typography level="h2">
                             {episode_name}
@@ -106,6 +106,13 @@ const EpisodeInfo = ({episode}) => {
                         <td>
                             <Link
                                 href={`/season/${season.season_id}`}>{season.season_name}</Link>
+                        </td>
+                    </tr>}
+                    {series && <tr>
+                        <td>Series:</td>
+                        <td>
+                            <Link
+                                href={`/series/${series.series_id}`}>{series.series_name}</Link>
                         </td>
                     </tr>}
                     {range && <tr>
