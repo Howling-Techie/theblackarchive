@@ -107,14 +107,13 @@ const fetchEpisodesByRange = async (rangeId) => {
 
 const fetchArtwork = async (folder, id) => {
 
-    console.log(`Searching for ${id} in ${folder}`);
     const {data: exists} = await supabase
         .storage
         .from("cover_art")
         .list(`${folder}`, {
             limit: 10,
             offset: 0,
-            search: `${id}`
+            search: `${id}.jpg`
         });
     if (exists.length !== 1) {
         return undefined;
@@ -261,6 +260,9 @@ const fetchEpisode = async (episodeId) => {
         if (!coverArt) {
             coverArt = await fetchArtwork("ranges", range.range_id);
         }
+        if (!coverArt) {
+            coverArt = await fetchArtwork("categories", category.category_id);
+        }
         episodeData.cover_art = coverArt;
 
         episodeData.season = {season_id: season.season_id, season_name: season.season_name};
@@ -278,6 +280,9 @@ const fetchEpisode = async (episodeId) => {
         if (!coverArt) {
             coverArt = await fetchArtwork("ranges", range.range_id);
         }
+        if (!coverArt) {
+            coverArt = await fetchArtwork("categories", category.category_id);
+        }
         episodeData.cover_art = coverArt;
 
         episodeData.series = {series_id: series.series_id, series_name: series.series_name};
@@ -289,6 +294,9 @@ const fetchEpisode = async (episodeId) => {
 
         if (!coverArt) {
             coverArt = await fetchArtwork("ranges", range.range_id);
+        }
+        if (!coverArt) {
+            coverArt = await fetchArtwork("categories", category.category_id);
         }
         episodeData.cover_art = coverArt;
 
