@@ -6,7 +6,7 @@ import {
     Badge, Avatar, CardContent, Card
 } from "@mui/joy";
 import EpisodePreview from "./EpisodePreview";
-import {AddCircleOutline, PlaylistAddCheck, Eject, StarBorder, Queue} from "@mui/icons-material";
+import {AddCircleOutline, PlaylistAddCheck, Download, StarBorder, Queue} from "@mui/icons-material";
 import CheckIcon from "@mui/icons-material/Check";
 import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
 import {green} from "@mui/material/colors";
@@ -64,7 +64,7 @@ const SeasonInfo = ({season, episodes}) => {
                                     </Button>
                                 </Grid>
                                 <Grid item xs={6}>
-                                    <Button startDecorator={<PlaylistAddCheck/>} variant="solid" fullWidth>
+                                    <Button startDecorator={<Download/>} variant="solid" fullWidth>
                                         Add All to Collection
                                     </Button>
                                 </Grid>

@@ -18,7 +18,8 @@ import {
     Queue,
     StarBorder,
     ArrowBack,
-    ArrowForward, Eject,
+    ArrowForward,
+    Download,
 } from "@mui/icons-material";
 
 const EpisodeInfo = ({episode}) => {
@@ -76,7 +77,7 @@ const EpisodeInfo = ({episode}) => {
                                         width: "100%"
                                     }}
                                 >
-                                    {prereq.production_code} - {prereq.episode_name}
+                                    {prereq.episode.episode_code} - {prereq.episode.episode_name}
                                 </Button>
                             ))}
                         </div>
@@ -94,7 +95,7 @@ const EpisodeInfo = ({episode}) => {
                                     }}
                                     sx={{px: "4px"}}
                                 >
-                                    {followUp.production_code} - {followUp.episode_name}
+                                    {followUp.episode.episode_code} - {followUp.episode.episode_name}
                                 </Button>
                             ))}
                         </div>
@@ -151,8 +152,8 @@ const EpisodeInfo = ({episode}) => {
                     </Button>
                 </Grid>
                 <Grid item xs={6}>
-                    <Button startDecorator={<PlaylistAddCheck/>} variant="solid" fullWidth>
-                        Add to Queue
+                    <Button startDecorator={<Download/>} variant="solid" fullWidth>
+                        Add to Collection
                     </Button>
                 </Grid>
                 <Grid item xs={6}>
