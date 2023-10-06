@@ -77,7 +77,7 @@ const fetchEpisodesBySeason = async (seasonId) => {
         return await fetchEpisode(episode.episode_id);
     });
 
-    return await Promise.all(episodePromises);
+    return (await Promise.all(episodePromises)).sort((a, b) => a.episode_code > b.episode_code ? 1 : -1);
 };
 
 const fetchEpisodesBySeries = async (seriesId) => {
@@ -92,7 +92,12 @@ const fetchEpisodesBySeries = async (seriesId) => {
     if (error) {
         throw new Error(error.message);
     }
-    return data;
+
+    const episodePromises = data.map(async episode => {
+        return await fetchEpisode(episode.episode_id);
+    });
+
+    return (await Promise.all(episodePromises)).sort((a, b) => a.episode_code > b.episode_code ? 1 : -1);
 };
 
 const fetchEpisodesByRange = async (rangeId) => {
@@ -107,7 +112,12 @@ const fetchEpisodesByRange = async (rangeId) => {
     if (error) {
         return [];
     }
-    return data;
+
+    const episodePromises = data.map(async episode => {
+        return await fetchEpisode(episode.episode_id);
+    });
+
+    return (await Promise.all(episodePromises)).sort((a, b) => a.episode_code > b.episode_code ? 1 : -1);
 };
 
 const fetchArtwork = async (folder, id) => {
@@ -334,8 +344,20 @@ const fetchEpisode = async (episodeId) => {
 
     episodeData.cover_art = await fetchEpisodeArtwork(episodeData);
 
+    const {data: prequelData} = await supabase
+        .from("episoderelationships")
+        .select(`episode:prerequisite_episode_id(episode_code, episode_id, episode_name)`)
+        .eq("continuation_episode_id", episodeId);
+
+    const {data: sequelData} = await supabase
+        .from("episoderelationships")
+        .select(`episode:continuation_episode_id(episode_code, episode_id, episode_name)`)
+        .eq("prerequisite_episode_id", episodeId);
+
+    episodeData.prerequisites = prequelData;
+    episodeData.followUps = sequelData;
     console.log(episodeData);
-    
+
     return episodeData;
 };
 
