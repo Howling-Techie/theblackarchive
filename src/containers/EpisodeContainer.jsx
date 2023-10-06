@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {fetchEpisode} from "../services/supabase"; // Assuming your function is in this file
+import {fetchEpisode} from "../services/supabase";
 import EpisodeInfo from "../components/EpisodeInfo";
 
 const EpisodeContainer = () => {

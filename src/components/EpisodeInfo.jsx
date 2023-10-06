@@ -53,7 +53,7 @@ const EpisodeInfo = ({episode}) => {
 
                     {cover_art && <div style={{marginLeft: "auto", marginRight: "10px"}}>
                         <img
-                            src={cover_art.publicUrl}
+                            src={cover_art}
                             alt="Episode Artwork"
                             style={{
                                 width: "200px",
