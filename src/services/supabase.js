@@ -345,12 +345,12 @@ const fetchEpisode = async (episodeId) => {
     episodeData.cover_art = await fetchEpisodeArtwork(episodeData);
 
     const {data: prequelData} = await supabase
-        .from("episoderelationships")
+        .from("episode_relationships")
         .select(`episode:prerequisite_episode_id(episode_code, episode_id, episode_name)`)
         .eq("continuation_episode_id", episodeId);
 
     const {data: sequelData} = await supabase
-        .from("episoderelationships")
+        .from("episode_relationships")
         .select(`episode:continuation_episode_id(episode_code, episode_id, episode_name)`)
         .eq("prerequisite_episode_id", episodeId);
 
